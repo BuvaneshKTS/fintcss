@@ -1,0 +1,92 @@
+curl -X 'PUT' \
+  'https://67f82d67-5039-4d66-9beb-86ad8013691f-00-10bg7ytxmhfh8.sisko.replit.dev:8000/api/Society/593b3da0-116c-4ab3-bb64-f8af1e32d859' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3NTg2Njk1ODcsImV4cCI6MTc1ODY3Njc4NywiaWF0IjoxNzU4NjY5NTg3LCJpc3MiOiJGaW50Y3NBcGkiLCJhdWQiOiJGaW50Y3NBcGlVc2VycyJ9.eDSXFBsFlcc7f4tbCWNxCfijuhXEC9VRpJALB1Z2fEk' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "string",
+  "address": "string",
+  "city": "string",{
+  "name": "Fintcs Society",
+  "address": "123 Finance Street",
+  "city": "Mumbai",
+  "phone": "+919876543210",
+  "fax": "022-12345678",
+  "email": "info@fintcs.com",
+  "website": "https://www.fintcs.com",
+  "registrationNumber": "FNTCS-001",
+  "chequeBounceCharge": 500,
+  "loanTypes": [
+    {
+      "loanTypeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Personal Loan",
+      "interestPercent": 12,
+      "limitAmount": 50000,
+      "compulsoryDeposit": 1000,
+      "optionalDeposit": 500,
+      "shareAmount": 2000,
+      "xTimes": 10
+    },
+    {
+      "loanTypeId": "f1b2c3d4-5678-4901-2345-abcdef123475",
+      "name": "Emergency Loan",
+      "interestPercent": 9,
+      "limitAmount": 100000,
+      "compulsoryDeposit": 0,
+      "optionalDeposit": 0,
+      "shareAmount": 0,
+      "xTimes": 5
+    }
+  ],
+  "bankAccounts": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "bankName": "State Bank of India",
+      "accountNumber": "123456789012",
+      "ifsc": "SBIN0001234",
+      "branch": "Mumbai Main Branch",
+      "notes": "Primary Society Account",
+      "isPrimary": true
+    },
+    {
+      "id": "f1b2c3d4-5678-4901-2345-abcdef123456",
+      "bankName": "Punjab National Bank",
+      "accountNumber": "987654321098",
+      "ifsc": "PUNB0123456",
+      "branch": "Andheri Branch",
+      "notes": "Secondary Account",
+      "isPrimary": false
+    }
+  ]
+}
+
+  "phone": "string",
+  "fax": "string",
+  "email": "user@example.com",
+  "website": "string",
+  "registrationNumber": "string",
+  "chequeBounceCharge": 0,
+  "loanTypes": [
+    {
+      "loanTypeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "string",
+      "interestPercent": 100,
+      "limitAmount": 0,
+      "compulsoryDeposit": 0,
+      "optionalDeposit": 0,
+      "shareAmount": 0,
+      "xTimes": 2147483647
+    }
+  ],
+  "bankAccounts": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "bankName": "string",
+      "accountNumber": "string",
+      "ifsc": "string",
+      "branch": "string",
+      "notes": "string",
+      "isPrimary": true
+    }
+  ]
+}'
