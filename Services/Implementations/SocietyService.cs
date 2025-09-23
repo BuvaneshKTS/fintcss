@@ -507,6 +507,7 @@ public class SocietyService : ISocietyService
                 var existing = society.LoanTypes.FirstOrDefault(lt => lt.LoanTypeId == dto.LoanTypeId.Value);
                 if (existing != null)
                 {
+                    // Update existing loan type
                     existing.Name = dto.Name;
                     existing.InterestPercent = dto.InterestPercent;
                     existing.LimitAmount = dto.LimitAmount;
@@ -516,11 +517,29 @@ public class SocietyService : ISocietyService
                     existing.XTimes = dto.XTimes;
                     existing.UpdatedAt = DateTime.UtcNow;
                 }
+                else
+                {
+                    // ID provided but doesn't exist - create new loan type (ignore provided ID)
+                    society.LoanTypes.Add(new LoanType
+                    {
+                        SocietyId = society.Id,
+                        Name = dto.Name,
+                        InterestPercent = dto.InterestPercent,
+                        LimitAmount = dto.LimitAmount,
+                        CompulsoryDeposit = dto.CompulsoryDeposit,
+                        OptionalDeposit = dto.OptionalDeposit,
+                        ShareAmount = dto.ShareAmount,
+                        XTimes = dto.XTimes,
+                        CreatedAt = DateTime.UtcNow
+                    });
+                }
             }
             else
             {
+                // No ID provided - create new loan type
                 society.LoanTypes.Add(new LoanType
                 {
+                    SocietyId = society.Id,
                     Name = dto.Name,
                     InterestPercent = dto.InterestPercent,
                     LimitAmount = dto.LimitAmount,
@@ -547,6 +566,7 @@ public class SocietyService : ISocietyService
                 var existing = society.BankAccounts.FirstOrDefault(ba => ba.Id == dto.Id.Value);
                 if (existing != null)
                 {
+                    // Update existing bank account
                     existing.BankName = dto.BankName;
                     existing.AccountNumber = dto.AccountNumber;
                     existing.IFSC = dto.IFSC;
@@ -555,11 +575,28 @@ public class SocietyService : ISocietyService
                     existing.IsPrimary = dto.IsPrimary;
                     existing.UpdatedAt = DateTime.UtcNow;
                 }
+                else
+                {
+                    // ID provided but doesn't exist - create new bank account (ignore provided ID)
+                    society.BankAccounts.Add(new SocietyBankAccount
+                    {
+                        SocietyId = society.Id,
+                        BankName = dto.BankName,
+                        AccountNumber = dto.AccountNumber,
+                        IFSC = dto.IFSC,
+                        Branch = dto.Branch,
+                        Notes = dto.Notes,
+                        IsPrimary = dto.IsPrimary,
+                        CreatedAt = DateTime.UtcNow
+                    });
+                }
             }
             else
             {
+                // No ID provided - create new bank account
                 society.BankAccounts.Add(new SocietyBankAccount
                 {
+                    SocietyId = society.Id,
                     BankName = dto.BankName,
                     AccountNumber = dto.AccountNumber,
                     IFSC = dto.IFSC,
