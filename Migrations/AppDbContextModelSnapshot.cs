@@ -68,6 +68,129 @@ namespace FintcsApi.Migrations
                     b.ToTable("LoanTypes");
                 });
 
+            modelBuilder.Entity("FintcsApi.Models.Member", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Branch")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DOJSociety")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DOR")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Designation")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Email2")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FHName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Mobile2")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Nominee")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NomineeRelation")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OfficeAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PayableAt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneOffice")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneRes")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Pincode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResidenceAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Share")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SocietyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("cdAmount")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SocietyId");
+
+                    b.ToTable("Members");
+                });
+
             modelBuilder.Entity("FintcsApi.Models.Society", b =>
                 {
                     b.Property<Guid>("Id")
@@ -277,6 +400,17 @@ namespace FintcsApi.Migrations
                     b.Navigation("Society");
                 });
 
+            modelBuilder.Entity("FintcsApi.Models.Member", b =>
+                {
+                    b.HasOne("FintcsApi.Models.Society", "Society")
+                        .WithMany("Members")
+                        .HasForeignKey("SocietyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Society");
+                });
+
             modelBuilder.Entity("FintcsApi.Models.SocietyBankAccount", b =>
                 {
                     b.HasOne("FintcsApi.Models.Society", "Society")
@@ -293,6 +427,8 @@ namespace FintcsApi.Migrations
                     b.Navigation("BankAccounts");
 
                     b.Navigation("LoanTypes");
+
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

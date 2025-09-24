@@ -1,299 +1,4 @@
-// // File: FintcsApi/Services/Implementations/SocietyService.cs 
-// using Microsoft.EntityFrameworkCore;
-// using FintcsApi.Data;
-// using FintcsApi.DTOs;
-// using FintcsApi.Models;
-// using FintcsApi.Services.Interfaces;
-
-// namespace FintcsApi.Services.Implementations;
-
-// public class SocietyService : ISocietyService
-// {
-//     private readonly AppDbContext _context;
-
-//     public SocietyService(AppDbContext context)
-//     {
-//         _context = context;
-//     }
-
-//     public async Task<ApiResponse<Society>> CreateSocietyAsync(SocietyCreateUpdateDto societyDto)
-//     {
-//         try
-//         {
-//             var society = new Society
-//             {
-//                 Name = societyDto.Name,
-//                 Address = societyDto.Address,
-//                 City = societyDto.City,
-//                 Phone = societyDto.Phone,
-//                 Fax = societyDto.Fax,
-//                 Email = societyDto.Email,
-//                 Website = societyDto.Website,
-//                 RegistrationNumber = societyDto.RegistrationNumber,
-//                 ChequeBounceCharge = societyDto.ChequeBounceCharge,
-//                 CreatedAt = DateTime.UtcNow
-//             };
-
-//             // Add loan types
-//             foreach (var loanTypeDto in societyDto.LoanTypes)
-//             {
-//                 var loanType = new LoanType
-//                 {
-//                     SocietyId = society.Id,
-//                     Name = loanTypeDto.Name,
-//                     InterestPercent = loanTypeDto.InterestPercent,
-//                     LimitAmount = loanTypeDto.LimitAmount,
-//                     CompulsoryDeposit = loanTypeDto.CompulsoryDeposit,
-//                     OptionalDeposit = loanTypeDto.OptionalDeposit,
-//                     ShareAmount = loanTypeDto.ShareAmount,
-//                     XTimes = loanTypeDto.XTimes,
-//                     CreatedAt = DateTime.UtcNow
-//                 };
-//                 society.LoanTypes.Add(loanType);
-//             }
-
-//             // Add bank accounts
-//             foreach (var bankAccountDto in societyDto.BankAccounts)
-//             {
-//                 var bankAccount = new SocietyBankAccount
-//                 {
-//                     SocietyId = society.Id,
-//                     BankName = bankAccountDto.BankName,
-//                     AccountNumber = bankAccountDto.AccountNumber,
-//                     IFSC = bankAccountDto.IFSC,
-//                     Branch = bankAccountDto.Branch,
-//                     Notes = bankAccountDto.Notes,
-//                     IsPrimary = bankAccountDto.IsPrimary,
-//                     CreatedAt = DateTime.UtcNow
-//                 };
-//                 society.BankAccounts.Add(bankAccount);
-//             }
-
-//             _context.Societies.Add(society);
-//             await _context.SaveChangesAsync();
-
-//             // Load the society with all relationships
-//             var createdSociety = await _context.Societies
-//                 .Include(s => s.LoanTypes)
-//                 .Include(s => s.BankAccounts)
-//                 .FirstAsync(s => s.Id == society.Id);
-
-//             return ApiResponse<Society>.SuccessResponse(createdSociety, "Society created successfully");
-//         }
-//         catch (Exception ex)
-//         {
-//             return ApiResponse<Society>.ErrorResponse($"Error creating society: {ex.Message}");
-//         }
-//     }
-
-//     public async Task<ApiResponse<Society>> GetSocietyByIdAsync(Guid id)
-//     {
-//         try
-//         {
-//             var society = await _context.Societies
-//                 .Include(s => s.LoanTypes)
-//                 .Include(s => s.BankAccounts)
-//                 .FirstOrDefaultAsync(s => s.Id == id);
-
-//             if (society == null)
-//             {
-//                 return ApiResponse<Society>.ErrorResponse("Society not found");
-//             }
-
-//             return ApiResponse<Society>.SuccessResponse(society);
-//         }
-//         catch (Exception ex)
-//         {
-//             return ApiResponse<Society>.ErrorResponse($"Error retrieving society: {ex.Message}");
-//         }
-//     }
-
-//     public async Task<ApiResponse<List<Society>>> GetAllSocietiesAsync()
-//     {
-//         try
-//         {
-//             var societies = await _context.Societies
-//                 .Include(s => s.LoanTypes)
-//                 .Include(s => s.BankAccounts)
-//                 .ToListAsync();
-
-//             return ApiResponse<List<Society>>.SuccessResponse(societies);
-//         }
-//         catch (Exception ex)
-//         {
-//             return ApiResponse<List<Society>>.ErrorResponse($"Error retrieving societies: {ex.Message}");
-//         }
-//     }
-
-//     public async Task<ApiResponse<Society>> UpdateSocietyAsync(Guid id, SocietyCreateUpdateDto societyDto)
-//     {
-//         try
-//         {
-//             var society = await _context.Societies
-//                 .Include(s => s.LoanTypes)
-//                 .Include(s => s.BankAccounts)
-//                 .FirstOrDefaultAsync(s => s.Id == id);
-
-//             if (society == null)
-//             {
-//                 return ApiResponse<Society>.ErrorResponse("Society not found");
-//             }
-
-//             // Update society properties
-//             society.Name = societyDto.Name;
-//             society.Address = societyDto.Address;
-//             society.City = societyDto.City;
-//             society.Phone = societyDto.Phone;
-//             society.Fax = societyDto.Fax;
-//             society.Email = societyDto.Email;
-//             society.Website = societyDto.Website;
-//             society.RegistrationNumber = societyDto.RegistrationNumber;
-//             society.ChequeBounceCharge = societyDto.ChequeBounceCharge;
-//             society.UpdatedAt = DateTime.UtcNow;
-
-//             // Update loan types
-//             await UpdateLoanTypesAsync(society, societyDto.LoanTypes);
-
-//             // Update bank accounts
-//             await UpdateBankAccountsAsync(society, societyDto.BankAccounts);
-
-//             await _context.SaveChangesAsync();
-
-//             // Reload the society with updated relationships
-//             var updatedSociety = await _context.Societies
-//                 .Include(s => s.LoanTypes)
-//                 .Include(s => s.BankAccounts)
-//                 .FirstAsync(s => s.Id == society.Id);
-
-//             return ApiResponse<Society>.SuccessResponse(updatedSociety, "Society updated successfully");
-//         }
-//         catch (Exception ex)
-//         {
-//             return ApiResponse<Society>.ErrorResponse($"Error updating society: {ex.Message}");
-//         }
-//     }
-
-//     public async Task<ApiResponse<bool>> DeleteSocietyAsync(Guid id)
-//     {
-//         try
-//         {
-//             var society = await _context.Societies.FindAsync(id);
-//             if (society == null)
-//             {
-//                 return ApiResponse<bool>.ErrorResponse("Society not found");
-//             }
-
-//             _context.Societies.Remove(society);
-//             await _context.SaveChangesAsync();
-
-//             return ApiResponse<bool>.SuccessResponse(true, "Society deleted successfully");
-//         }
-//         catch (Exception ex)
-//         {
-//             return ApiResponse<bool>.ErrorResponse($"Error deleting society: {ex.Message}");
-//         }
-//     }
-
-//     private async Task UpdateLoanTypesAsync(Society society, List<LoanTypeCreateUpdateDto> loanTypeDtos)
-//     {
-//         // Remove loan types that are not in the update list
-//         var loanTypeIdsToKeep = loanTypeDtos.Where(lt => lt.LoanTypeId.HasValue).Select(lt => lt.LoanTypeId!.Value).ToList();
-//         var loanTypesToRemove = society.LoanTypes.Where(lt => !loanTypeIdsToKeep.Contains(lt.LoanTypeId)).ToList();
-        
-//         foreach (var loanType in loanTypesToRemove)
-//         {
-//             _context.LoanTypes.Remove(loanType);
-//         }
-
-//         // Update existing and add new loan types
-//         foreach (var loanTypeDto in loanTypeDtos)
-//         {
-//             if (loanTypeDto.LoanTypeId.HasValue)
-//             {
-//                 // Update existing loan type
-//                 var existingLoanType = society.LoanTypes.FirstOrDefault(lt => lt.LoanTypeId == loanTypeDto.LoanTypeId.Value);
-//                 if (existingLoanType != null)
-//                 {
-//                     existingLoanType.Name = loanTypeDto.Name;
-//                     existingLoanType.InterestPercent = loanTypeDto.InterestPercent;
-//                     existingLoanType.LimitAmount = loanTypeDto.LimitAmount;
-//                     existingLoanType.CompulsoryDeposit = loanTypeDto.CompulsoryDeposit;
-//                     existingLoanType.OptionalDeposit = loanTypeDto.OptionalDeposit;
-//                     existingLoanType.ShareAmount = loanTypeDto.ShareAmount;
-//                     existingLoanType.XTimes = loanTypeDto.XTimes;
-//                     existingLoanType.UpdatedAt = DateTime.UtcNow;
-//                 }
-//             }
-//             else
-//             {
-//                 // Add new loan type
-//                 var newLoanType = new LoanType
-//                 {
-//                     SocietyId = society.Id,
-//                     Name = loanTypeDto.Name,
-//                     InterestPercent = loanTypeDto.InterestPercent,
-//                     LimitAmount = loanTypeDto.LimitAmount,
-//                     CompulsoryDeposit = loanTypeDto.CompulsoryDeposit,
-//                     OptionalDeposit = loanTypeDto.OptionalDeposit,
-//                     ShareAmount = loanTypeDto.ShareAmount,
-//                     XTimes = loanTypeDto.XTimes,
-//                     CreatedAt = DateTime.UtcNow
-//                 };
-//                 society.LoanTypes.Add(newLoanType);
-//             }
-//         }
-//     }
-
-//     private async Task UpdateBankAccountsAsync(Society society, List<BankAccountCreateDto> bankAccountDtos)
-//     {
-//         // Remove bank accounts that are not in the update list
-//         var bankAccountIdsToKeep = bankAccountDtos.Where(ba => ba.Id.HasValue).Select(ba => ba.Id!.Value).ToList();
-//         var bankAccountsToRemove = society.BankAccounts.Where(ba => !bankAccountIdsToKeep.Contains(ba.Id)).ToList();
-        
-//         foreach (var bankAccount in bankAccountsToRemove)
-//         {
-//             _context.SocietyBankAccounts.Remove(bankAccount);
-//         }
-
-//         // Update existing and add new bank accounts
-//         foreach (var bankAccountDto in bankAccountDtos)
-//         {
-//             if (bankAccountDto.Id.HasValue)
-//             {
-//                 // Update existing bank account
-//                 var existingBankAccount = society.BankAccounts.FirstOrDefault(ba => ba.Id == bankAccountDto.Id.Value);
-//                 if (existingBankAccount != null)
-//                 {
-//                     existingBankAccount.BankName = bankAccountDto.BankName;
-//                     existingBankAccount.AccountNumber = bankAccountDto.AccountNumber;
-//                     existingBankAccount.IFSC = bankAccountDto.IFSC;
-//                     existingBankAccount.Branch = bankAccountDto.Branch;
-//                     existingBankAccount.Notes = bankAccountDto.Notes;
-//                     existingBankAccount.IsPrimary = bankAccountDto.IsPrimary;
-//                     existingBankAccount.UpdatedAt = DateTime.UtcNow;
-//                 }
-//             }
-//             else
-//             {
-//                 // Add new bank account
-//                 var newBankAccount = new SocietyBankAccount
-//                 {
-//                     SocietyId = society.Id,
-//                     BankName = bankAccountDto.BankName,
-//                     AccountNumber = bankAccountDto.AccountNumber,
-//                     IFSC = bankAccountDto.IFSC,
-//                     Branch = bankAccountDto.Branch,
-//                     Notes = bankAccountDto.Notes,
-//                     IsPrimary = bankAccountDto.IsPrimary,
-//                     CreatedAt = DateTime.UtcNow
-//                 };
-//                 society.BankAccounts.Add(newBankAccount);
-//             }
-//         }
-//     }
-// }
-
-
+// File: FintcsApi/Services/Implementations/SocietyService.cs
 using Microsoft.EntityFrameworkCore;
 using FintcsApi.Data;
 using FintcsApi.DTOs;
@@ -370,12 +75,50 @@ public class SocietyService : ISocietyService
                 });
             }
 
+            // Add Members
+            if (dto.Members != null && dto.Members.Any())
+            {
+                foreach (var m in dto.Members)
+                {
+                    society.Members.Add(new Member
+                    {
+                        Name = m.Name,
+                        FHName = m.FHName,
+                        Mobile = m.Mobile,
+                        Email = m.Email,
+                        Status = m.Status,
+                        OfficeAddress = m.OfficeAddress,
+                        City = m.City,
+                        PhoneOffice = m.PhoneOffice,
+                        Branch = m.Branch,
+                        PhoneRes = m.PhoneRes,
+                        Designation = m.Designation,
+                        ResidenceAddress = m.ResidenceAddress,
+                        DOB = m.DOB,
+                        DOJSociety = m.DOJSociety,
+                        DOR = m.DOR,
+                        Nominee = m.Nominee,
+                        NomineeRelation = m.NomineeRelation,
+                        cdAmount = m.cdAmount,
+                        Email2 = m.Email2,
+                        Mobile2 = m.Mobile2,
+                        Pincode = m.Pincode,
+                        BankName = m.BankName,
+                        AccountNumber = m.AccountNumber,
+                        PayableAt = m.PayableAt,
+                        Share = m.Share,
+                        CreatedAt = DateTime.UtcNow
+                    });
+                }
+            }
+
             _context.Societies.Add(society);
             await _context.SaveChangesAsync();
 
             var created = await _context.Societies
                 .Include(s => s.LoanTypes)
                 .Include(s => s.BankAccounts)
+                .Include(s => s.Members) // ✅ Include members
                 .FirstAsync(s => s.Id == society.Id);
 
             return ApiResponse<Society>.SuccessResponse(created, "Society created successfully");
@@ -393,6 +136,7 @@ public class SocietyService : ISocietyService
             var society = await _context.Societies
                 .Include(s => s.LoanTypes)
                 .Include(s => s.BankAccounts)
+                .Include(s => s.Members) // ✅ Include members
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             if (society == null) return ApiResponse<Society>.ErrorResponse("Society not found.");
@@ -420,12 +164,14 @@ public class SocietyService : ISocietyService
 
             UpdateLoanTypes(society, dto.LoanTypes);
             UpdateBankAccounts(society, dto.BankAccounts);
+            UpdateMembers(society, dto.Members);
 
             await _context.SaveChangesAsync();
 
             var updated = await _context.Societies
                 .Include(s => s.LoanTypes)
                 .Include(s => s.BankAccounts)
+                .Include(s => s.Members) // ✅ Include members
                 .FirstAsync(s => s.Id == society.Id);
 
             return ApiResponse<Society>.SuccessResponse(updated, "Society updated successfully");
@@ -441,6 +187,7 @@ public class SocietyService : ISocietyService
         var society = await _context.Societies
             .Include(s => s.LoanTypes)
             .Include(s => s.BankAccounts)
+            .Include(s => s.Members) // ✅ Include members
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (society == null) return ApiResponse<Society>.ErrorResponse("Society not found.");
@@ -452,6 +199,7 @@ public class SocietyService : ISocietyService
         var societies = await _context.Societies
             .Include(s => s.LoanTypes)
             .Include(s => s.BankAccounts)
+            .Include(s => s.Members) // ✅ Include members
             .ToListAsync();
 
         return ApiResponse<List<Society>>.SuccessResponse(societies);
@@ -507,7 +255,6 @@ public class SocietyService : ISocietyService
                 var existing = society.LoanTypes.FirstOrDefault(lt => lt.LoanTypeId == dto.LoanTypeId.Value);
                 if (existing != null)
                 {
-                    // Update existing loan type
                     existing.Name = dto.Name;
                     existing.InterestPercent = dto.InterestPercent;
                     existing.LimitAmount = dto.LimitAmount;
@@ -519,7 +266,6 @@ public class SocietyService : ISocietyService
                 }
                 else
                 {
-                    // ID provided but doesn't exist - create new loan type (ignore provided ID)
                     society.LoanTypes.Add(new LoanType
                     {
                         SocietyId = society.Id,
@@ -536,7 +282,6 @@ public class SocietyService : ISocietyService
             }
             else
             {
-                // No ID provided - create new loan type
                 society.LoanTypes.Add(new LoanType
                 {
                     SocietyId = society.Id,
@@ -566,7 +311,6 @@ public class SocietyService : ISocietyService
                 var existing = society.BankAccounts.FirstOrDefault(ba => ba.Id == dto.Id.Value);
                 if (existing != null)
                 {
-                    // Update existing bank account
                     existing.BankName = dto.BankName;
                     existing.AccountNumber = dto.AccountNumber;
                     existing.IFSC = dto.IFSC;
@@ -577,7 +321,6 @@ public class SocietyService : ISocietyService
                 }
                 else
                 {
-                    // ID provided but doesn't exist - create new bank account (ignore provided ID)
                     society.BankAccounts.Add(new SocietyBankAccount
                     {
                         SocietyId = society.Id,
@@ -593,7 +336,6 @@ public class SocietyService : ISocietyService
             }
             else
             {
-                // No ID provided - create new bank account
                 society.BankAccounts.Add(new SocietyBankAccount
                 {
                     SocietyId = society.Id,
@@ -603,6 +345,81 @@ public class SocietyService : ISocietyService
                     Branch = dto.Branch,
                     Notes = dto.Notes,
                     IsPrimary = dto.IsPrimary,
+                    CreatedAt = DateTime.UtcNow
+                });
+            }
+        }
+    }
+
+    private void UpdateMembers(Society society, List<MemberCreateUpdateDto>? dtos)
+    {
+        if (dtos == null) return;
+
+        var toRemove = society.Members
+            .Where(m => !dtos.Any(d => d.Email == m.Email)) // remove members not in DTO
+            .ToList();
+        _context.Members.RemoveRange(toRemove);
+
+        foreach (var dto in dtos)
+        {
+            var existing = society.Members.FirstOrDefault(m => m.Email == dto.Email);
+            if (existing != null)
+            {
+                existing.Name = dto.Name;
+                existing.FHName = dto.FHName;
+                existing.Mobile = dto.Mobile;
+                existing.Status = dto.Status;
+                existing.OfficeAddress = dto.OfficeAddress;
+                existing.City = dto.City;
+                existing.PhoneOffice = dto.PhoneOffice;
+                existing.Branch = dto.Branch;
+                existing.PhoneRes = dto.PhoneRes;
+                existing.Designation = dto.Designation;
+                existing.ResidenceAddress = dto.ResidenceAddress;
+                existing.DOB = dto.DOB;
+                existing.DOJSociety = dto.DOJSociety;
+                existing.DOR = dto.DOR;
+                existing.Nominee = dto.Nominee;
+                existing.NomineeRelation = dto.NomineeRelation;
+                existing.cdAmount = dto.cdAmount;
+                existing.Email2 = dto.Email2;
+                existing.Mobile2 = dto.Mobile2;
+                existing.Pincode = dto.Pincode;
+                existing.BankName = dto.BankName;
+                existing.AccountNumber = dto.AccountNumber;
+                existing.PayableAt = dto.PayableAt;
+                existing.Share = dto.Share;
+                existing.UpdatedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                society.Members.Add(new Member
+                {
+                    Name = dto.Name,
+                    FHName = dto.FHName,
+                    Mobile = dto.Mobile,
+                    Email = dto.Email,
+                    Status = dto.Status,
+                    OfficeAddress = dto.OfficeAddress,
+                    City = dto.City,
+                    PhoneOffice = dto.PhoneOffice,
+                    Branch = dto.Branch,
+                    PhoneRes = dto.PhoneRes,
+                    Designation = dto.Designation,
+                    ResidenceAddress = dto.ResidenceAddress,
+                    DOB = dto.DOB,
+                    DOJSociety = dto.DOJSociety,
+                    DOR = dto.DOR,
+                    Nominee = dto.Nominee,
+                    NomineeRelation = dto.NomineeRelation,
+                    cdAmount = dto.cdAmount,
+                    Email2 = dto.Email2,
+                    Mobile2 = dto.Mobile2,
+                    Pincode = dto.Pincode,
+                    BankName = dto.BankName,
+                    AccountNumber = dto.AccountNumber,
+                    PayableAt = dto.PayableAt,
+                    Share = dto.Share,
                     CreatedAt = DateTime.UtcNow
                 });
             }

@@ -1,68 +1,4 @@
-// using Microsoft.EntityFrameworkCore;
-// using FintcsApi.Models;
-
-// namespace FintcsApi.Data;
-
-// public class AppDbContext : DbContext
-// {
-//     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-//     {
-//     }
-
-//     public DbSet<User> Users { get; set; }
-//     public DbSet<Society> Societies { get; set; }
-//     public DbSet<LoanType> LoanTypes { get; set; }
-//     public DbSet<SocietyBankAccount> SocietyBankAccounts { get; set; }
-
-//     protected override void OnModelCreating(ModelBuilder modelBuilder)
-//     {
-//         base.OnModelCreating(modelBuilder);
-
-//         // Configure User entity
-//         modelBuilder.Entity<User>(entity =>
-//         {
-//             entity.HasIndex(e => e.Username).IsUnique();
-//             entity.HasIndex(e => e.Email).IsUnique();
-//         });
-
-//         // Configure Society entity
-//         modelBuilder.Entity<Society>(entity =>
-//         {
-//             entity.Property(e => e.ChequeBounceCharge)
-//                 .HasPrecision(18, 2);
-//         });
-
-//         // Configure LoanType entity
-//         modelBuilder.Entity<LoanType>(entity =>
-//         {
-//             entity.Property(e => e.InterestPercent)
-//                 .HasPrecision(5, 2);
-//             entity.Property(e => e.LimitAmount)
-//                 .HasPrecision(18, 2);
-//             entity.Property(e => e.CompulsoryDeposit)
-//                 .HasPrecision(18, 2);
-//             entity.Property(e => e.OptionalDeposit)
-//                 .HasPrecision(18, 2);
-//             entity.Property(e => e.ShareAmount)
-//                 .HasPrecision(18, 2);
-
-//             entity.HasOne(e => e.Society)
-//                 .WithMany(s => s.LoanTypes)
-//                 .HasForeignKey(e => e.SocietyId)
-//                 .OnDelete(DeleteBehavior.Cascade);
-//         });
-
-//         // Configure SocietyBankAccount entity
-//         modelBuilder.Entity<SocietyBankAccount>(entity =>
-//         {
-//             entity.HasOne(e => e.Society)
-//                 .WithMany(s => s.BankAccounts)
-//                 .HasForeignKey(e => e.SocietyId)
-//                 .OnDelete(DeleteBehavior.Cascade);
-//         });
-//     }
-// }
-
+// Data/AppDbContext.cs
 
 using FintcsApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +11,8 @@ namespace FintcsApi.Data
         public DbSet<Society> Societies { get; set; }
         public DbSet<LoanType> LoanTypes { get; set; }
         public DbSet<SocietyBankAccount> SocietyBankAccounts { get; set; }
+        public DbSet<Member> Members { get; set; } = default!;
+
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

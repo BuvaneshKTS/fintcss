@@ -88,6 +88,51 @@ namespace FintcsApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Members",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    FHName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Mobile = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    OfficeAddress = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    PhoneOffice = table.Column<string>(type: "text", nullable: false),
+                    Branch = table.Column<string>(type: "text", nullable: false),
+                    PhoneRes = table.Column<string>(type: "text", nullable: false),
+                    Designation = table.Column<string>(type: "text", nullable: false),
+                    ResidenceAddress = table.Column<string>(type: "text", nullable: false),
+                    DOB = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DOJSociety = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DOR = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nominee = table.Column<string>(type: "text", nullable: false),
+                    NomineeRelation = table.Column<string>(type: "text", nullable: false),
+                    cdAmount = table.Column<string>(type: "text", nullable: false),
+                    Email2 = table.Column<string>(type: "text", nullable: false),
+                    Mobile2 = table.Column<string>(type: "text", nullable: false),
+                    Pincode = table.Column<string>(type: "text", nullable: false),
+                    BankName = table.Column<string>(type: "text", nullable: false),
+                    AccountNumber = table.Column<string>(type: "text", nullable: false),
+                    PayableAt = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    SocietyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Share = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Members", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Members_Societies_SocietyId",
+                        column: x => x.SocietyId,
+                        principalTable: "Societies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SocietyBankAccounts",
                 columns: table => new
                 {
@@ -118,6 +163,11 @@ namespace FintcsApi.Migrations
                 table: "LoanTypes",
                 columns: new[] { "SocietyId", "Name" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Members_SocietyId",
+                table: "Members",
+                column: "SocietyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Societies_Address",
@@ -185,6 +235,9 @@ namespace FintcsApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "LoanTypes");
+
+            migrationBuilder.DropTable(
+                name: "Members");
 
             migrationBuilder.DropTable(
                 name: "SocietyBankAccounts");

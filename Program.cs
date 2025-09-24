@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using FintcsApi.Data;
+using FintcsApi.Services;
 using FintcsApi.Services.Interfaces;
 using FintcsApi.Services.Implementations;
 
@@ -19,6 +20,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // ------------------- Add Services -------------------
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISocietyService, SocietyService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+
 
 // ------------------- Configure JWT -------------------
 var jwtKey = builder.Configuration["Jwt:Key"] 
