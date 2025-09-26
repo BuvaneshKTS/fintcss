@@ -55,11 +55,11 @@ builder.Services.AddAuthorization();
 // ------------------- Configure CORS -------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.AllowAnyOrigin()   // allows all origins
+              .AllowAnyHeader()   // allows all headers
+              .AllowAnyMethod();  // allows all HTTP methods
     });
 });
 

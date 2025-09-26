@@ -30,5 +30,19 @@ namespace FintcsApi.Controllers
             await _ledgerService.RecordTransactionAsync(dto);
             return Ok(new { success = true, message = "Transaction recorded." });
         }
+
+        [HttpPost("create-other-ledger")]
+        public async Task<IActionResult> CreateOtherLedger([FromBody] LedgerCreateDto dto)
+        {
+            await _ledgerService.CreateOtherLedgerAsync(dto.MemberId, dto.AccountName, dto.InitialBalance);
+            return Ok("Ledger created successfully");
+        }
+
+        [HttpPost("other-ledger-transaction")]
+        public async Task<IActionResult> OtherLedgerTransaction([FromBody] LedgerTransactionDto dto)
+        {
+            await _ledgerService.RecordOtherLedgerTransactionAsync(dto);
+            return Ok("Transaction recorded successfully");
+        }
     }
 }

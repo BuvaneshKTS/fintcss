@@ -9,11 +9,11 @@ namespace FintcsApi.Models
         [Key]
         public Guid LedgerAccountId { get; set; } = Guid.NewGuid();
 
-        [Required]
-        public Guid MemberId { get; set; }
+        
+        public Guid? MemberId { get; set; }
 
         [ForeignKey("MemberId")]
-        public Member Member { get; set; } = null!;
+        public Member? Member { get; set; }
 
         [Required]
         [StringLength(255)]

@@ -6,19 +6,19 @@ public class MemberCreateUpdateDto
 {
     public Guid? Id { get; set; }
 
-    [Required]
+    // [Required]
     public Guid SocietyId { get; set; }
 
-    [Required]
+    // [Required]/
     public string Name { get; set; } = null!;
 
-    [Required]
+    // [Required]
     public string FHName { get; set; } = null!;
 
-    [Required]
+    // [Required]
     public string Mobile { get; set; } = null!;
 
-    [Required]
+    // [Required]
     [EmailAddress]
     public string Email { get; set; } = null!;
 

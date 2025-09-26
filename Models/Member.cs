@@ -9,19 +9,19 @@ public class Member
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    [Required]
+    // [Required]
     [StringLength(255)]
     public string Name { get; set; } = null!;
 
-    [Required]
+    // [Required]
     [StringLength(255)]
     public string FHName { get; set; } = null!;
 
-    [Required]
+    // [Required]
     [StringLength(20)]
     public string Mobile { get; set; } = null!;
 
-    [Required]
+    // [Required]
     [EmailAddress]
     [StringLength(255)]
     public string Email { get; set; } = null!;

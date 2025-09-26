@@ -19,6 +19,12 @@ namespace FintcsApi.Models
         public Guid? MemberId { get; set; }
         public Guid? LoanId { get; set; }
 
+        // 👇 Add these new fields
+        [Required]
+        public Guid SocietyId { get; set; }
+
+        public Guid? BankId { get; set; }
+
         public decimal Debit { get; set; } = 0;
         public decimal Credit { get; set; } = 0;
         public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
@@ -28,9 +34,8 @@ namespace FintcsApi.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // 👇 Link back to voucher
         public Guid? VoucherId { get; set; }
-        
+
         [ForeignKey("VoucherId")]
         public Voucher? Voucher { get; set; }
     }

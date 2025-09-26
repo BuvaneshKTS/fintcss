@@ -11,5 +11,7 @@ namespace FintcsApi.Services.Interfaces
     {
         Task RecordTransactionAsync(LedgerTransactionDto dto);
         Task CreateDefaultLedgersForMemberAsync(Guid memberId);
+        Task CreateOtherLedgerAsync(Guid? memberId, string accountName, decimal initialBalance = 0);
+        Task RecordOtherLedgerTransactionAsync(LedgerTransactionDto dto);
     }
 }
