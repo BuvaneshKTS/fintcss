@@ -1,5 +1,3 @@
-// // File: FintcsApi/Models/LoanType.cs
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +11,7 @@ public class LoanType
     public Guid LoanTypeId { get; set; } = Guid.NewGuid();
 
     [Required]
-    public Guid SocietyId { get; set; }
+    public Guid SocietyId { get; set; }   // FK only
 
     [Required]
     [StringLength(255)]
@@ -40,12 +38,12 @@ public class LoanType
     public decimal ShareAmount { get; set; }
 
     [Required]
-    [Range(1, int.MaxValue)]
+    [Range(0, int.MaxValue)]
     public int XTimes { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
 
     [ForeignKey("SocietyId")]
-    public Society? Society { get; set; }
+    public Society? Society { get; set; }  // Navigation
 }

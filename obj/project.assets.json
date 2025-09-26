@@ -2929,8 +2929,8 @@
       "Microsoft.AspNetCore.OpenApi >= 8.0.19",
       "Microsoft.EntityFrameworkCore >= 8.0.19",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.19",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.5",
-      "Swashbuckle.AspNetCore >= 6.6.0",
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.8",
+      "Swashbuckle.AspNetCore >= 6.6.1",
       "System.IdentityModel.Tokens.Jwt >= 8.0.1"
     ]
   },
@@ -2940,11 +2940,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
+      "projectUniqueName": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj",
       "projectName": "FintcsApi",
-      "projectPath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
+      "projectPath": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj",
       "packagesPath": "C:\\Users\\krita\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\krita\\Downloads\\fintcss\\obj\\",
+      "outputPath": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\krita\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3001,11 +3001,11 @@
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
-            "version": "[8.0.5, )"
+            "version": "[8.0.8, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
-            "version": "[6.6.0, )"
+            "version": "[6.6.1, )"
           },
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
@@ -3034,27 +3034,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "FintcsApi depends on Npgsql.EntityFrameworkCore.PostgreSQL (>= 8.0.5) but Npgsql.EntityFrameworkCore.PostgreSQL 8.0.5 was not found. Npgsql.EntityFrameworkCore.PostgreSQL 8.0.8 was resolved instead.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "FintcsApi depends on Swashbuckle.AspNetCore (>= 6.6.0) but Swashbuckle.AspNetCore 6.6.0 was not found. Swashbuckle.AspNetCore 6.6.1 was resolved instead.",
-      "libraryId": "Swashbuckle.AspNetCore",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

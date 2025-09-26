@@ -1,5 +1,3 @@
-// // File: FintcsApi/Models/Society.cs
-
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,8 +47,8 @@ public class Society
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
 
-    public ICollection<LoanType> LoanTypes { get; set; } = new List<LoanType>();
-    public ICollection<SocietyBankAccount> BankAccounts { get; set; } = new List<SocietyBankAccount>();
-    public ICollection<Member> Members { get; set; } = new List<Member>();
-
+    // Navigation properties (optional, for querying)
+    public ICollection<LoanType>? LoanTypes { get; set; }
+    public ICollection<SocietyBankAccount>? BankAccounts { get; set; }
+    public ICollection<Member>? Members { get; set; }
 }

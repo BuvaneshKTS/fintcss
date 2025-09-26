@@ -1,6 +1,8 @@
 // File: Services/Interfaces/IMemberService.cs
 using FintcsApi.DTOs;
 
+using FintcsApi.Models;
+
 namespace FintcsApi.Services.Interfaces
 {
     public interface IMemberService

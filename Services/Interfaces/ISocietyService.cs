@@ -1,14 +1,14 @@
-// File: FintcsApi/Services/Interfaces/ISocietyService.cs
 using FintcsApi.DTOs;
 using FintcsApi.Models;
 
-namespace FintcsApi.Services.Interfaces;
-
-public interface ISocietyService
+namespace FintcsApi.Services.Interfaces
 {
-    Task<ApiResponse<Society>> CreateSocietyAsync(SocietyCreateUpdateDto societyDto);
-    Task<ApiResponse<Society>> GetSocietyByIdAsync(Guid id);
-    Task<ApiResponse<List<Society>>> GetAllSocietiesAsync();
-    Task<ApiResponse<Society>> UpdateSocietyAsync(Guid id, SocietyCreateUpdateDto societyDto);
-    Task<ApiResponse<bool>> DeleteSocietyAsync(Guid id);
+    public interface ISocietyService
+    {
+        Task<ApiResponse<SocietyDto>> CreateSocietyAsync(SocietyCreateUpdateDto dto);
+        Task<ApiResponse<SocietyDto>> GetSocietyByIdAsync(Guid id);
+        Task<ApiResponse<List<SocietyDto>>> GetAllSocietiesAsync();
+        Task<ApiResponse<SocietyDto>> UpdateSocietyAsync(Guid id, SocietyCreateUpdateDto dto);
+        Task<ApiResponse<bool>> DeleteSocietyAsync(Guid id);
+    }
 }

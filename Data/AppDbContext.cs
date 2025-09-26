@@ -12,6 +12,12 @@ namespace FintcsApi.Data
         public DbSet<LoanType> LoanTypes { get; set; }
         public DbSet<SocietyBankAccount> SocietyBankAccounts { get; set; }
         public DbSet<Member> Members { get; set; } = default!;
+        public DbSet<Loan> Loans { get; set; } = default!;
+        public DbSet<LedgerAccount> LedgerAccounts { get; set; } = default!;
+        public DbSet<LedgerTransaction> LedgerTransactions { get; set; } = default!;
+        public DbSet<Voucher> Vouchers { get; set; } = default!;
+
+
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }

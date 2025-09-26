@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FintcsApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250924112259_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250926072030_UpdateLedgerAccountSchema")]
+    partial class UpdateLedgerAccountSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,159 @@ namespace FintcsApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("FintcsApi.Models.LedgerAccount", b =>
+                {
+                    b.Property<Guid>("LedgerAccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AccountName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("LedgerAccountId");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("LedgerAccounts");
+                });
+
+            modelBuilder.Entity("FintcsApi.Models.LedgerTransaction", b =>
+                {
+                    b.Property<Guid>("LedgerTransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Credit")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Debit")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid>("LedgerAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("LoanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("MemberId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("VoucherId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("LedgerTransactionId");
+
+                    b.HasIndex("LedgerAccountId");
+
+                    b.HasIndex("VoucherId");
+
+                    b.ToTable("LedgerTransactions");
+                });
+
+            modelBuilder.Entity("FintcsApi.Models.Loan", b =>
+                {
+                    b.Property<Guid>("LoanId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AuthorizedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Bank")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ChequeDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ChequeNo")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("InstallmentAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Installments")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("LoanAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("LoanDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LoanTypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("NetLoan")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("NewLoanShare")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("PayAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("PaymentMode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("PreviousLoan")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Purpose")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SocietyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("LoanId");
+
+                    b.HasIndex("LoanTypeId");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("SocietyId");
+
+                    b.ToTable("Loans");
+                });
 
             modelBuilder.Entity("FintcsApi.Models.LoanType", b =>
                 {
@@ -169,8 +322,8 @@ namespace FintcsApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Share")
-                        .HasColumnType("text");
+                    b.Property<decimal>("Share")
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("SocietyId")
                         .HasColumnType("uuid");
@@ -183,9 +336,8 @@ namespace FintcsApi.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("cdAmount")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<decimal>("cdAmount")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -392,6 +544,111 @@ namespace FintcsApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("FintcsApi.Models.Voucher", b =>
+                {
+                    b.Property<Guid>("VoucherId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LedgerTransactionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("LoanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("MemberId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Narration")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("VoucherDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("VoucherNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("VoucherType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("VoucherId");
+
+                    b.HasIndex("LedgerTransactionId");
+
+                    b.HasIndex("LoanId");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Vouchers");
+                });
+
+            modelBuilder.Entity("FintcsApi.Models.LedgerAccount", b =>
+                {
+                    b.HasOne("FintcsApi.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("FintcsApi.Models.LedgerTransaction", b =>
+                {
+                    b.HasOne("FintcsApi.Models.LedgerAccount", "LedgerAccount")
+                        .WithMany()
+                        .HasForeignKey("LedgerAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FintcsApi.Models.Voucher", "Voucher")
+                        .WithMany()
+                        .HasForeignKey("VoucherId");
+
+                    b.Navigation("LedgerAccount");
+
+                    b.Navigation("Voucher");
+                });
+
+            modelBuilder.Entity("FintcsApi.Models.Loan", b =>
+                {
+                    b.HasOne("FintcsApi.Models.LoanType", "LoanType")
+                        .WithMany()
+                        .HasForeignKey("LoanTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FintcsApi.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FintcsApi.Models.Society", "Society")
+                        .WithMany()
+                        .HasForeignKey("SocietyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LoanType");
+
+                    b.Navigation("Member");
+
+                    b.Navigation("Society");
+                });
+
             modelBuilder.Entity("FintcsApi.Models.LoanType", b =>
                 {
                     b.HasOne("FintcsApi.Models.Society", "Society")
@@ -423,6 +680,29 @@ namespace FintcsApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Society");
+                });
+
+            modelBuilder.Entity("FintcsApi.Models.Voucher", b =>
+                {
+                    b.HasOne("FintcsApi.Models.LedgerTransaction", "LedgerTransaction")
+                        .WithMany()
+                        .HasForeignKey("LedgerTransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FintcsApi.Models.Loan", "Loan")
+                        .WithMany()
+                        .HasForeignKey("LoanId");
+
+                    b.HasOne("FintcsApi.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
+                    b.Navigation("LedgerTransaction");
+
+                    b.Navigation("Loan");
+
+                    b.Navigation("Member");
                 });
 
             modelBuilder.Entity("FintcsApi.Models.Society", b =>

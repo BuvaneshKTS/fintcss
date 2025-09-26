@@ -1,5 +1,3 @@
-
-
 using System.ComponentModel.DataAnnotations;
 
 namespace FintcsApi.DTOs;
@@ -34,8 +32,4 @@ public class SocietyCreateUpdateDto
 
     [Range(0, double.MaxValue)]
     public decimal? ChequeBounceCharge { get; set; }
-
-    public List<LoanTypeCreateUpdateDto> LoanTypes { get; set; } = new();
-    public List<BankAccountCreateDto> BankAccounts { get; set; } = new();
-    public List<MemberCreateUpdateDto> Members { get; set; } = new();
 }

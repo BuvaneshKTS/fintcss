@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QyVskLTiWrA=",
+  "dgSpecHash": "vh47uYKPF8k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
+  "projectFilePath": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\krita\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\krita\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -59,30 +59,5 @@
     "C:\\Users\\krita\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
     "C:\\Users\\krita\\.nuget\\packages\\system.threading.channels\\6.0.0\\system.threading.channels.6.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "message": "FintcsApi depends on Npgsql.EntityFrameworkCore.PostgreSQL (>= 8.0.5) but Npgsql.EntityFrameworkCore.PostgreSQL 8.0.5 was not found. Npgsql.EntityFrameworkCore.PostgreSQL 8.0.8 was resolved instead.",
-      "projectPath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "message": "FintcsApi depends on Swashbuckle.AspNetCore (>= 6.6.0) but Swashbuckle.AspNetCore 6.6.0 was not found. Swashbuckle.AspNetCore 6.6.1 was resolved instead.",
-      "projectPath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
-      "libraryId": "Swashbuckle.AspNetCore",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj": {}
+    "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj": {
+    "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
+        "projectUniqueName": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj",
         "projectName": "FintcsApi",
-        "projectPath": "C:\\Users\\krita\\Downloads\\fintcss\\FintcsApi.csproj",
+        "projectPath": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\FintcsApi.csproj",
         "packagesPath": "C:\\Users\\krita\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\krita\\Downloads\\fintcss\\obj\\",
+        "outputPath": "C:\\Users\\krita\\Downloads\\fintcssparallel\\fintcss\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\krita\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -68,11 +68,11 @@
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[8.0.5, )"
+              "version": "[8.0.8, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.6.0, )"
+              "version": "[6.6.1, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

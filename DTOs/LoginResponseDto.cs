@@ -1,3 +1,4 @@
+// DTOs/LoginResponseDto.cs
 namespace FintcsApi.DTOs;
 
 public class LoginResponseDto

@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using FintcsApi.Data;
-using FintcsApi.Services;
 using FintcsApi.Services.Interfaces;
 using FintcsApi.Services.Implementations;
 
@@ -17,11 +16,15 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// ------------------- Add Services -------------------
+// ------------------- Register Services -------------------
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISocietyService, SocietyService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
-
+builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<ILoanTypeService, LoanTypeService>();
+builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+builder.Services.AddScoped<ILedgerService, LedgerService>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
 
 // ------------------- Configure JWT -------------------
 var jwtKey = builder.Configuration["Jwt:Key"] 
@@ -29,7 +32,6 @@ var jwtKey = builder.Configuration["Jwt:Key"]
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
 
-// Ensure key length is valid
 if (string.IsNullOrWhiteSpace(jwtKey) || Encoding.UTF8.GetBytes(jwtKey).Length < 16)
     throw new InvalidOperationException("JWT key must be at least 16 characters long.");
 
@@ -50,8 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// ------------------- Controllers & CORS -------------------
-builder.Services.AddControllers();
+// ------------------- Configure CORS -------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -62,15 +63,16 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ------------------- Swagger / OpenAPI -------------------
-builder.Services.AddEndpointsApiExplorer();
+// ------------------- Controllers & JSON -------------------
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-        options.JsonSerializerOptions.WriteIndented = true; // optional, pretty print
+        options.JsonSerializerOptions.WriteIndented = true;
     });
 
+// ------------------- Swagger / OpenAPI -------------------
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "FintcsApi", Version = "v1" });
@@ -115,7 +117,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseCors("AllowAll");
+app.UseCors("AllowAll");       // Must be BEFORE Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 

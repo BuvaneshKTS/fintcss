@@ -15,7 +15,7 @@
 
     <!-- OpenAPI / Swagger -->
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.19" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
 
     <!-- Entity Framework Core -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.19" />
@@ -25,7 +25,7 @@
     </PackageReference>
 
     <!-- PostgreSQL EF Core provider -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
 
     <!-- JWT token support -->
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
